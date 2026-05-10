@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula Path: Portfolio & Gallery</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & Framer Motion CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        indigo: { deep: '#1e1b4b' },
+                        fuchsia: { vibrant: '#701a75' },
+                        turquoise: { glow: '#0d9488' },
+                        hotPink: '#db2777',
+                        canary: '#fde047',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #1e1b4b;
+            color: white;
+            background-image: 
+                radial-gradient(circle at 0% 0%, #701a75 0%, transparent 40%),
+                radial-gradient(circle at 100% 100%, #0d9488 0%, transparent 40%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #ffffff, #fde047, #0d9488);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            transition: all 0.5s ease;
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 40px rgba(219, 39, 119, 0.2);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1e1b4b; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #db2777; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/javascript">
+        const { useState, useEffect } = React;
+        const { motion, AnimatePresence } = window.Motion;
+
+        // --- DATA ---
+        const BOOKS = [
+            { id: '1', title: 'Nebula Chronicles', desc: 'Ancient magic meets cold tech.', img: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?w=600' },
+            { id: '2', title: 'Echoes of Indigo', desc: 'A portal fantasy of light and shadow.', img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600' }
+        ];
+
+        const PORTFOLIO = [
+            { id: 'p1', title: 'Indigo Guardian', type: 'art', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800' },
+            { id: 'p2', title: 'Cyber-Fae', type: 'art', img: 'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=800' },
+            { id: 'p3', title: 'Fractured Grid', type: 'writing', img: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800' }
+        ];
+
+        // --- COMPONENTS ---
+        const Nav = () => (
+            <nav className="fixed top-0 left-0 w-full z-50 bg-[#1e1b4b]/50 backdrop-blur-md border-b border-white/10 px-6 py-4">
+                <div className="max-w-7xl mx-auto flex justify-between items-center">
+                    <div className="text-xl font-display font-bold tracking-widest">
+                        NEBULA<span className="text-[#fde047]">PATH</span>
+                    </div>
+                    <div className="hidden md:flex gap-8 text-sm font-bold items-center">
+                        <a href="#books" className="hover:text-[#fde047]">BOOKS</a>
+                        <a href="#portfolio" className="hover:text-[#fde047]">PORTFOLIO</a>
+                        <a href="#about" className="hover:text-[#fde047]">ABOUT</a>
+                        <button className="border border-[#db2777] px-6 py-2 rounded-full text-[#db2777] hover:bg-[#db2777] hover:text-white transition-all">CONTACT</button>
+                    </div>
+                </div>
+            </nav>
+        );
+
+        const Hero = () => (
+            <section className="pt-40 pb-20 px-6">
+                <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                    <motion.div initial={{opacity:0, x:-50}} animate={{opacity:1, x:0}} transition={{duration:0.8}}>
+                        <span className="text-[#fde047] text-xs font-bold tracking-widest uppercase mb-4 block">Author • Artist • Visionary</span>
+                        <h1 className="text-6xl md:text-8xl font-bold font-display leading-[0.9] mb-8">
+                            Crafting Worlds <br/> <span className="text-gradient">Beyond Limits.</span>
+                        </h1>
+                        <p className="text-white/60 text-lg max-w-md mb-10">Welcome to my portal. Explore sci-fi fantasy sagas and extraordinary digital visions.</p>
+                        <div className="flex gap-4">
+                            <button className="bg-[#db2777] px-8 py-4 rounded-full font-bold shadow-lg shadow-hotPink/20">EXPLORE WORKS</button>
+                        </div>
+                    </motion.div>
+                    <motion.div initial={{opacity:0, scale:0.8}} animate={{opacity:1, scale:1}} className="relative">
+                        <div className="absolute inset-0 bg-hotPink/20 blur-3xl opacity-50"></div>
+                        <img src="https://images.unsplash.com/photo-1614728263952-84ea256f9679?w=1000" className="rounded-3xl border border-white/20 shadow-2xl relative z-10" />
+                    </motion.div>
+                </div>
+            </section>
+        );
+
+        const Portfolio = () => {
+            const [filter, setFilter] = useState('all');
+            const items = filter === 'all' ? PORTFOLIO : PORTFOLIO.filter(i => i.type === filter);
+            return (
+                <section id="portfolio" className="py-20 px-6">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="flex justify-between items-end mb-12">
+                            <h2 className="text-5xl font-bold">The <span className="text-[#0d9488]">Gallery</span></h2>
+                            <div className="flex bg-white/5 border border-white/10 rounded-full p-1">
+                                {['all', 'art', 'writing'].map(f => (
+                                    <button onClick={() => setFilter(f)} className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase ${filter === f ? 'bg-[#db2777]' : 'text-white/40'}`}>{f}</button>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {items.map(item => (
+                                <motion.div key={item.id} layout className="glass-card overflow-hidden group">
+                                    <img src={item.img} className="aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-700" />
+                                    <div className="p-6">
+                                        <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                                        <span className="text-[#db2777] text-[10px] font-bold uppercase tracking-widest">{item.type}</span>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const App = () => {
+            return (
+                <div>
+                    <Nav />
+                    <Hero />
+                    <Portfolio />
+                    <footer className="py-20 border-t border-white/10 text-center">
+                        <p className="text-white/20 text-xs font-bold uppercase tracking-widest">© 2026 Nebula Path • Created with Magic & Technology</p>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(App));
+    </script>
+</body>
+</html>
